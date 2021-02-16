@@ -1,24 +1,45 @@
-import logo from './logo.svg';
+import {useState, useEffect} from 'react'
 import './App.css';
+import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import Landing from './comps/Landing'
+import Home from './comps/Home';
+import Registration from './comps/Registration';
+import ProtectedRoute from "./comps/ProtectedRoute";
 
-function App() {
+function App(props) {
+
+  const [user, setUser] = useState(false);
+  
+  const handleLogin = e => {
+    e.preventDefault();
+    setUser(true);
+  }
+
+  const handleLogout = e => {
+    e.preventDefault();
+    setUser(false);
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <div>
+      <Router>
+        <Switch>
+          
+          <Route exact path='/'>
+            <Landing user={user.toString()}/>
+            </Route>
+
+            <Route path='/form'>
+            <Registration user={user} />
+            </Route>
+
+            <ProtectedRoute path='/home'>
+              <Home user={user}/>
+            </ProtectedRoute>
+
+        </Switch>
+      </Router>
+ </div>
+
   );
 }
 
