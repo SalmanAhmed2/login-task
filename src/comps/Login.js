@@ -1,21 +1,21 @@
 import React, { useState, useEffect} from "react";
 import * as ReactBootStrap from "react-bootstrap";
 import { Button } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { Formik } from "formik";
 import { Form } from "react-bootstrap";
 
-function Registration(props) {
+function Login() {
   const history = useHistory();
   const [data, setData] = useState("");
   const [errorr, setErr] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
-    
   
+  const token = localStorage.getItem("Token")
+
   const  formSubmit = (data) => {
       setIsLoaded(true);
-
-      let api  =  fetch("https://reqres.in/api/register", {
+      let api  =  fetch("https://reqres.in/api/login", {
         method: "post",
         headers: {
           "Content-Type": "application/json",
@@ -44,8 +44,9 @@ function Registration(props) {
     }
 
   return (
+
     <div>
-      <h2 variant="contained">Registration Page</h2>
+      <h2 variant="contained">Login Page</h2>
       <Formik
         initialValues={{ email: "", password: "" }}
         validate={(values) => {
@@ -64,7 +65,7 @@ function Registration(props) {
           formSubmit(values)
           setSubmitting(false);
         }}
-      >
+        >
         {({
           values,
           errors,
@@ -104,22 +105,16 @@ function Registration(props) {
                 Login
                 {isLoaded? <ReactBootStrap.Spinner animation="border"/>: null}
               </Button>
-
-                {/* <div className="buttons">
-              <Button type="submit" variant="contained" color="primary">
-                Submit
-                {isLoaded ? (
-                  <ReactBootStrap.Spinner animation="border" />
-                ) : null}
-              </Button>
-            </div> */}
           </Form>
         )}
       </Formik>
       <p className="warning">
         {errorr.error}
       </p>
+      <Link to="/register">
+        Don't have an account? Register now!
+      </Link>
     </div>
   );
 }
-export default Registration;
+export default Login;

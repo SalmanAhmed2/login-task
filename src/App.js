@@ -3,28 +3,29 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Switch, useHistory} from "react-router-dom";
 import Landing from "./comps/Landing";
 import Home from "./comps/Home";
-import Registration from "./comps/Registration";
+import Login from "./comps/Login";
+import Register from './comps/Register'
 import ProtectedRoute from "./comps/ProtectedRoute";
+import ProtectedForm from './comps/ProtectedForm'
 
 function App(props) {
-
-  useEffect(() => {
-  localStorage.removeItem('Token');
-}, [])
+  const token = localStorage.getItem("Token")
+  
   return (
     <div>
       <Router>
         <Switch>
-          <Route exact path="/">
-            <Landing/>
-          </Route>
+         
+          <Route exact path='/' component={Landing}/>
 
-          <Route path="/form">
-            <Registration/>
-          </Route>
-
+          <ProtectedForm path="/login" component={Login}/>
+        
+          <ProtectedForm path='/register' component={Register}/>
+        
           <ProtectedRoute path="/home" component={Home} />
+        
         </Switch>
+
       </Router>
     </div>
   );
