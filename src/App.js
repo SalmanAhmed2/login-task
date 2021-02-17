@@ -1,45 +1,32 @@
-import {useState, useEffect} from 'react'
-import './App.css';
-import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import Landing from './comps/Landing'
-import Home from './comps/Home';
-import Registration from './comps/Registration';
+import { useState, useEffect } from "react";
+import "./App.css";
+import { BrowserRouter as Router, Route, Switch, useHistory} from "react-router-dom";
+import Landing from "./comps/Landing";
+import Home from "./comps/Home";
+import Registration from "./comps/Registration";
 import ProtectedRoute from "./comps/ProtectedRoute";
 
 function App(props) {
 
-  const [user, setUser] = useState(false);
-  
-  const handleLogin = e => {
-    e.preventDefault();
-    setUser(true);
-  }
-
-  const handleLogout = e => {
-    e.preventDefault();
-    setUser(false);
-  }
+  useEffect(() => {
+  localStorage.removeItem('Token');
+}, [])
   return (
     <div>
       <Router>
         <Switch>
-          
-          <Route exact path='/'>
-            <Landing user={user.toString()}/>
-            </Route>
+          <Route exact path="/">
+            <Landing/>
+          </Route>
 
-            <Route path='/form'>
-            <Registration user={user} />
-            </Route>
+          <Route path="/form">
+            <Registration/>
+          </Route>
 
-            <ProtectedRoute path='/home'>
-              <Home user={user}/>
-            </ProtectedRoute>
-
+          <ProtectedRoute path="/home" component={Home} />
         </Switch>
       </Router>
- </div>
-
+    </div>
   );
 }
 

@@ -8,8 +8,7 @@ const Landing = (props) => {
     <div className="landing">
       <h1>Landing</h1>
       <Button variant="contained" color="primary" onClick={()=>{history.push('/home')} }>Home Page</Button>
-      <Button variant="contained" color="primary" onClick={()=>{history.push('/form')}}>Login/Register</Button>
-      <p>Logged in status: {props.user}</p>
+      <Button variant="contained" color="primary" onClick={()=>{history.push('/form')}}>Login User</Button>
     </div>
   )
 };

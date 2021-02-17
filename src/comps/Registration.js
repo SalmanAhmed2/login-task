@@ -1,42 +1,48 @@
-import React, { useState, useEffect } from "react";
-import {Button} from '@material-ui/core'
-import { useHistory} from 'react-router-dom';
+import React, { useState, useEffect} from "react";
+import * as ReactBootStrap from "react-bootstrap";
+import { Button } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 import { Formik } from "formik";
-import { Form} from 'react-bootstrap';
-import * as ReactBootStrap from 'react-bootstrap';
+import { Form } from "react-bootstrap";
 
 function Registration(props) {
   const history = useHistory();
   const [data, setData] = useState("");
-  const [errorr, setErr]=useState("")
+  const [errorr, setErr] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
+    
   
-  const formSubmit = (data) => {
-    setIsLoaded(true);
-    let api = fetch("https://reqres.in/api/register", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ...data,
-      }),
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        setIsLoaded(false);
-        localStorage.setItem('Token', response.token)
-        response.error == "Missing password" ? setErr(response):
-        history.push('/home',{
-          response
-        })
-        props.user(true)
+  const  formSubmit = (data) => {
+      setIsLoaded(true);
+
+      let api  =  fetch("https://reqres.in/api/register", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...data,
+        }),
       })
-      .catch((err) => {
-        setIsLoaded(false);
-        console.log(err);
-      });
-  };
+        .then((response) => response.json())
+        .then((response) => {
+          if (response.error) {
+            setErr(response);
+          } else {
+            localStorage.setItem("Token", response.token);
+            history.push("/home", {
+              response,
+            });
+          }
+          setIsLoaded(false);
+        })
+        .catch((err) => {
+          setIsLoaded(false);
+          setErr(err)
+          localStorage.removeItem("Token");
+        });
+    }
+
   return (
     <div>
       <h2 variant="contained">Registration Page</h2>
@@ -55,7 +61,7 @@ function Registration(props) {
         }}
         onSubmit={(values, { setSubmitting }) => {
           setData(values);
-          formSubmit(values);
+          formSubmit(values)
           setSubmitting(false);
         }}
       >
@@ -67,46 +73,52 @@ function Registration(props) {
           handleSubmit,
           isSubmitting,
         }) => (
-          <Form onSubmit={handleSubmit} controlId="formBasicEmail">
+          <Form onSubmit={handleSubmit}>
             <Form.Group>
-            <Form.Control
-              type="email"
-              name="email"
-              onChange={handleChange}
-              value={values.email}
-              placeholder="Email"
-            />
-            <Form.Text>
-            <p className="warning">  {errors.email && touched.email && errors.email}</p>
-            </Form.Text>
-      
+              <Form.Control
+                type="email"
+                name="email"
+                onChange={handleChange}
+                value={values.email}
+                placeholder="Email"
+              />
+              <Form.Text>
+                <p className="warning">
+                  {errors.email && touched.email && errors.email}
+                </p>
+              </Form.Text>
             </Form.Group>
             <Form.Group>
-            <Form.Control
-              type="password"
-              name="password"
-              onChange={handleChange}
-              value={values.password}
-              placeholder="Password"
-            />
-            <Form>
-            <p className="warning">{errors.password && touched.password && errors.password}</p>
-            </Form>
+              <Form.Control
+                type="password"
+                name="password"
+                onChange={handleChange}
+                value={values.password}
+                placeholder="Password"
+              />
+              <p className="warning">
+                {errors.password && touched.password && errors.password}
+              </p>
             </Form.Group>
-             <div className="buttons">
+              <Button variant="contained" color="primary" type="submit">
+                Login
+                {isLoaded? <ReactBootStrap.Spinner animation="border"/>: null}
+              </Button>
 
-               <Button variant="contained" color="primary" type="submit">Login
-               {/* {isLoaded? <ReactBootStrap.Spinner animation="border"/>: null} */}
-               </Button>
-
-            <Button type="submit" variant="contained" color="primary">Submit
-             {isLoaded? <ReactBootStrap.Spinner animation="border"/>: null}</Button>
-
-             </div>
+                {/* <div className="buttons">
+              <Button type="submit" variant="contained" color="primary">
+                Submit
+                {isLoaded ? (
+                  <ReactBootStrap.Spinner animation="border" />
+                ) : null}
+              </Button>
+            </div> */}
           </Form>
         )}
       </Formik>
-      <p className="warning">{(errorr.error == "Missing password")? errorr.error : null}</p>
+      <p className="warning">
+        {errorr.error}
+      </p>
     </div>
   );
 }

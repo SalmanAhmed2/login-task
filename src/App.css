@@ -23,8 +23,12 @@ form{
   justify-content: center;
 }
 .landing{
-  height: 300px;
+  height: 150px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+}
+.homeBTN{
+  display: flex;
   justify-content: space-between;
 }
