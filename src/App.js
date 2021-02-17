@@ -6,7 +6,8 @@ import Home from "./comps/Home";
 import Login from "./comps/Login";
 import Register from './comps/Register'
 import ProtectedRoute from "./comps/ProtectedRoute";
-import ProtectedForm from './comps/ProtectedForm'
+import ProtectedForm from './comps/ProtectedForm';
+import Details from './comps/Details'
 
 function App(props) {
   const token = localStorage.getItem("Token")
@@ -23,6 +24,8 @@ function App(props) {
           <ProtectedForm path='/register' component={Register}/>
         
           <ProtectedRoute path="/home" component={Home} />
+
+          <ProtectedRoute path="/details/:id" component={Details} />
         
         </Switch>
 

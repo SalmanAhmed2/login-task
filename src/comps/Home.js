@@ -3,6 +3,7 @@ import axios from 'axios'
 import {Button} from '@material-ui/core'
 import {useHistory} from 'react-router-dom';
 import * as ReactBootStrap from "react-bootstrap";
+import Table from 'react-bootstrap/Table'
 
 
 
@@ -20,11 +21,9 @@ export default function Home() {
         const result = await axios(
           'https://reqres.in/api/unknown',
         );
-     
+        
         setData(result.data.data);
       },[])
-
-      console.log(data,"data")
     return (
         <div>
             <h1>Home Page</h1>
@@ -34,8 +33,32 @@ export default function Home() {
             {isLoaded? <ReactBootStrap.Spinner animation="border"/>: null}
             </Button>
             </div>
-        {data.map((items)=> 
-        <>{items}</>)}
+          
+            <Table>
+               <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Year</th>
+                    <th>Actions</th>
+                </tr>
+               </thead>
+               {data.map((item)=>
+           <>
+               <tbody>
+               <tr>
+                   <td>
+                       {item.name}
+                   </td>
+                   <td>
+                       {item.year}
+                   </td>
+                   <td>
+                       <Button variant="contained" color="primary" onClick={()=>history.push(`details/${item.id}`)}>Details</Button>
+                   </td>
+                </tr> 
+               </tbody>
+               </>)}
+           </Table>
             <div>
             </div>
         </div>
