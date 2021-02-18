@@ -4,6 +4,7 @@ import { Button } from "@material-ui/core";
 import { useHistory, Link } from "react-router-dom";
 import { Formik } from "formik";
 import { Form } from "react-bootstrap";
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
 
 function Register() {
@@ -101,8 +102,8 @@ function Register() {
                 {errors.password && touched.password && errors.password}
               </p>
             </Form.Group>
-              <Button variant="contained" color="primary" type="submit">
-                  Register
+              <Button className="loginBtn" variant="contained" color="primary" type="submit">
+                  Register<PersonAddIcon/>
                 {isLoaded? <ReactBootStrap.Spinner animation="border"/>: null}
               </Button>
           </Form>
@@ -111,7 +112,7 @@ function Register() {
       <p className="warning">
         {errorr.error}
       </p>
-      <Link to="/login">Already have an account? Login now</Link>
+      <Link to="/login">Already have an account? Login now!</Link>
         </div>
     )
 }

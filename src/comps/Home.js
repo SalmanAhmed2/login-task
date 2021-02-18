@@ -4,6 +4,10 @@ import {Button} from '@material-ui/core'
 import {useHistory} from 'react-router-dom';
 import * as ReactBootStrap from "react-bootstrap";
 import Table from 'react-bootstrap/Table'
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import AddIcon from '@material-ui/icons/Add';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Navbar from 'react-bootstrap/Navbar'
 
 
 
@@ -11,54 +15,64 @@ export default function Home() {
     const history= useHistory()
     const [data, setData]=useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
+    
     const handleLogOut=()=>{
         setIsLoaded(true);
         localStorage.removeItem('Token')
         history.push("/")
         setIsLoaded(false);
     }
+
     useEffect(async () => {
-        const result = await axios(
-          'https://reqres.in/api/unknown',
-        );
-        
+        setIsLoaded(true);
+        const result = await axios('https://reqres.in/api/unknown');
         setData(result.data.data);
+        setIsLoaded(false);
       },[])
     return (
-        <div>
-            <h1>Home Page</h1>
-            <p className="success">You have successfully logged in!</p>
-            <div className="homeBTN">
-            <Button variant="contained" color="primary" onClick={handleLogOut}>Log Out
+        <div className="homePage">
+            <Navbar className="homeLogout">
+            <Button variant="contained" color="primary" onClick={()=>{history.push('/adduser')}}>Add User<AddIcon/></Button>
+                <h1>Home Page</h1>
+            <Button className="logOutBtn" variant="contained" color="primary" onClick={handleLogOut}>Log Out
+            <ExitToAppIcon/>
             {isLoaded? <ReactBootStrap.Spinner animation="border"/>: null}
-            </Button>
-            </div>
-          
-            <Table>
-               <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Year</th>
-                    <th>Actions</th>
-                </tr>
-               </thead>
-               {data.map((item)=>
-           <>
-               <tbody>
-               <tr>
-                   <td>
-                       {item.name}
-                   </td>
-                   <td>
-                       {item.year}
-                   </td>
-                   <td>
-                       <Button variant="contained" color="primary" onClick={()=>history.push(`details/${item.id}`)}>Details</Button>
-                   </td>
-                </tr> 
-               </tbody>
-               </>)}
-           </Table>
+            </Button></Navbar>
+            {isLoaded? <ReactBootStrap.Spinner animation="border"/>:
+            <div className="homeTable">         
+                <Table>
+            <thead>
+             <tr>
+                 <th>Name</th>
+                 <th>Year</th>
+                 <th>Actions</th>
+             </tr>
+            </thead>
+            {data.map((item, ind)=>
+        <>
+            <tbody>
+            <tr>
+                <td key={ind.name}>
+                    {item.name}
+                </td>
+                <td key={ind.year}>
+                    {item.year}
+                </td>
+                <td className="detailBTN">
+                    <Button variant="contained" color="primary" 
+                    onClick={
+                        ()=>{
+                            setIsLoaded(true)
+                            history.push(`details/${item.id}`)
+                         }
+                     }>Details</Button>
+                </td>
+             </tr> 
+            </tbody>
+            </>)}
+        </Table>
+        </div>
+            }
             <div>
             </div>
         </div>

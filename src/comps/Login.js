@@ -4,7 +4,7 @@ import { Button } from "@material-ui/core";
 import { useHistory, Link } from "react-router-dom";
 import { Formik } from "formik";
 import { Form } from "react-bootstrap";
-
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 function Login() {
   const history = useHistory();
   const [data, setData] = useState("");
@@ -45,9 +45,10 @@ function Login() {
 
   return (
 
-    <div>
+    <div className="loginPage">
       <h2 variant="contained">Login Page</h2>
-      <Formik
+     <div className="form">
+     <Formik
         initialValues={{ email: "", password: "" }}
         validate={(values) => {
           const errors = {};
@@ -101,13 +102,14 @@ function Login() {
                 {errors.password && touched.password && errors.password}
               </p>
             </Form.Group>
-              <Button variant="contained" color="primary" type="submit">
-                Login
+              <Button className="loginBtn" variant="contained" color="primary" type="submit">
+                Login<AccountCircleIcon/>
                 {isLoaded? <ReactBootStrap.Spinner animation="border"/>: null}
               </Button>
           </Form>
         )}
       </Formik>
+     </div>
       <p className="warning">
         {errorr.error}
       </p>
