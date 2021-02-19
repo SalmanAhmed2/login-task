@@ -65,6 +65,10 @@ justify-content: space-around;
   flex-direction: row;
   justify-content: space-around;
 }
+.detailsBTN{
+display: flex;
+justify-content: space-around;
+}
 h4 span{
   font-weight: 600;
   color: rgb(14, 14, 14);

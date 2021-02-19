@@ -8,13 +8,14 @@ import Register from './comps/Register'
 import ProtectedRoute from "./comps/ProtectedRoute";
 import ProtectedForm from './comps/ProtectedForm';
 import Details from './comps/Details'
-import AddUser from './comps/AddUser'
+import AddUsers from './comps/AddUsers'
+import Edit from './comps/Edit'
 
 function App(props) {
   const token = localStorage.getItem("Token")
   
   return (
-    <div class="app">
+    <div className="app">
       <Router>
         <Switch>
          
@@ -28,7 +29,9 @@ function App(props) {
 
           <ProtectedRoute path="/details/:id" component={Details} />
 
-          <Route path='/adduser' component={AddUser}/>
+          <Route path='/adduser' component={AddUsers}/>
+
+          <Route path="/edit/:id" component={Edit}/>
         
         </Switch>
 

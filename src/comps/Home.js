@@ -4,7 +4,6 @@ import {Button} from '@material-ui/core'
 import {useHistory} from 'react-router-dom';
 import * as ReactBootStrap from "react-bootstrap";
 import Table from 'react-bootstrap/Table'
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import AddIcon from '@material-ui/icons/Add';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Navbar from 'react-bootstrap/Navbar'
@@ -17,7 +16,7 @@ export default function Home() {
     const [isLoaded, setIsLoaded] = useState(false);
     
     const handleLogOut=()=>{
-        setIsLoaded(true);
+        setIsLoaded(true)
         localStorage.removeItem('Token')
         history.push("/")
         setIsLoaded(false);
@@ -29,6 +28,7 @@ export default function Home() {
         setData(result.data.data);
         setIsLoaded(false);
       },[])
+      
     return (
         <div className="homePage">
             <Navbar className="homeLogout">
@@ -39,6 +39,7 @@ export default function Home() {
             {isLoaded? <ReactBootStrap.Spinner animation="border"/>: null}
             </Button></Navbar>
             {isLoaded? <ReactBootStrap.Spinner animation="border"/>:
+
             <div className="homeTable">         
                 <Table>
             <thead>
@@ -52,13 +53,13 @@ export default function Home() {
         <>
             <tbody>
             <tr>
-                <td key={ind.name}>
+                <td>
                     {item.name}
                 </td>
-                <td key={ind.year}>
+                <td>
                     {item.year}
                 </td>
-                <td className="detailBTN">
+                <td className="detailBTN" >
                     <Button variant="contained" color="primary" 
                     onClick={
                         ()=>{
