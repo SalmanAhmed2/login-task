@@ -2,16 +2,14 @@ import React from "react";
 import { Route, Redirect, useLocation } from "react-router-dom";
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
+  const token = localStorage.getItem("Token");
 
-
-  const token = localStorage.getItem("Token")
-  
   return (
     <Route
       {...rest}
       render={(props) => {
         if (token) {
-          return <Component {...rest} {...props} />
+          return <Component {...rest} {...props} />;
         } else {
           return (
             <Redirect
@@ -26,7 +24,6 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
         }
       }}
     />
-
   );
 };
 

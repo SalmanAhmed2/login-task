@@ -1,54 +1,51 @@
-import React, { useState, useEffect} from "react";
+import React, { useState} from "react";
 import * as ReactBootStrap from "react-bootstrap";
 import { Button } from "@material-ui/core";
 import { useHistory, Link } from "react-router-dom";
 import { Formik } from "formik";
 import { Form } from "react-bootstrap";
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
-
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
 
 function Register() {
-
-    const history = useHistory();
+  const history = useHistory();
   const [data, setData] = useState("");
   const [errorr, setErr] = useState("");
-  const [isLoaded, setIsLoaded] = useState(false);
-//   const token = localStorage.getItem("Token")
-  
-  const  formSubmit = (data) => {
-      setIsLoaded(true);
-      let api  =  fetch("https://reqres.in/api/register", {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...data,
-        }),
-      })
-        .then((response) => response.json())
-        .then((response) => {
-          if (response.error) {
-            setErr(response);
-          } else {
-            localStorage.setItem("Token", response.token);
-            history.push("/home", {
-              response,
-            });
-          }
-          setIsLoaded(false);
-        })
-        .catch((err) => {
-          setIsLoaded(false);
-          setErr(err)
-          localStorage.removeItem("Token");
-        });
-    }
+  const [isLoading, setIsLoading] = useState(false)
 
-    return (
-        <div>
-             <h2 variant="contained">Registration Page</h2>
-             <Formik
+  const formSubmit = (data) => {
+    setIsLoading(true)
+    fetch("https://reqres.in/api/register", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...data,
+      }),
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        if (response.error) {
+          setErr(response);
+        } else {
+          localStorage.setItem("Token", response.token);
+          history.push("/home", {
+            response,
+          });
+        }
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        setErr(err);
+        localStorage.removeItem("Token");
+      });
+  }
+
+  return (
+    <div>
+      <h2 variant="contained">Registration Page</h2>
+      <Formik
         initialValues={{ email: "", password: "" }}
         validate={(values) => {
           const errors = {};
@@ -63,7 +60,7 @@ function Register() {
         }}
         onSubmit={(values, { setSubmitting }) => {
           setData(values);
-          formSubmit(values)
+          formSubmit(values);
           setSubmitting(false);
         }}
       >
@@ -73,7 +70,6 @@ function Register() {
           touched,
           handleChange,
           handleSubmit,
-          isSubmitting,
         }) => (
           <Form onSubmit={handleSubmit}>
             <Form.Group>
@@ -102,19 +98,23 @@ function Register() {
                 {errors.password && touched.password && errors.password}
               </p>
             </Form.Group>
-              <Button className="loginBtn" variant="contained" color="primary" type="submit">
-                  Register<PersonAddIcon/>
-                {isLoaded? <ReactBootStrap.Spinner animation="border"/>: null}
-              </Button>
+            <Button
+              className="loginBtn"
+              variant="contained"
+              color="primary"
+              type="submit"
+            >
+              Register
+              <PersonAddIcon />
+              {isLoading && <ReactBootStrap.Spinner animation="border" />}
+            </Button>
           </Form>
         )}
       </Formik>
-      <p className="warning">
-        {errorr.error}
-      </p>
+      <p className="warning">{errorr.error}</p>
       <Link to="/login">Already have an account? Login now!</Link>
-        </div>
-    )
+    </div>
+  );
 }
 
-export default Register
+export default Register;

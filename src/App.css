@@ -3,7 +3,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
 .warning{
   color: red;
@@ -11,6 +10,7 @@
 .success{
   color:green;
 }
+/* /////////..........HOME PAGE...............////////////////// */
 .homePage{
   width: 100%;
   display: flex;
@@ -23,20 +23,13 @@
   width: 100%!important;
   justify-content: space-between!important;
 }
-.homeTable{
-  width: 40%;
-}
-table{
-  margin-top: 50px!important;
-}
-.table td, .table th {
-  padding: 10px 25px!important;
-  margin: 0px 10px!important;
-}
-th{
-  background: rgb(248, 248, 248)!important;
-}
+.homeTable{width: 40%}
+table{margin-top: 50px!important}
 
+.table td, .table th {padding: 10px 25px!important;margin: 0px 10px!important;}
+th{background: rgb(248, 248, 248)!important}
+
+/* ///////////......LANDING PAGE..........////////////// */
 .landing{
   width: 40%;
   height: 200px;
@@ -45,6 +38,7 @@ th{
   align-items: center;
   justify-content: space-around;
 }
+/* /////////........DETAILS PAGE...........//////////// */
 .details{
 width: 50%;
 height: 300px;
@@ -73,22 +67,25 @@ h4 span{
   font-weight: 600;
   color: rgb(14, 14, 14);
 }
-.loginPage{
+
+/* ///////////////.......LOGIN PAGE......./////////////////// */
+.formPage{
   width:50%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
 }
+
 .form{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
 }
-.loginBtn {
-  margin-left: 65px!important;
-}
+
+.loginBtn {margin-left: 65px!important}
+
 .userForm{
   display: flex;
   flex-direction: column;
